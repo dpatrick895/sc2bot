@@ -3,7 +3,7 @@ from sc2 import run_game, maps, Race, Difficulty
 from sc2.player import Bot, Computer
 from sc2.constants import NEXUS, PROBE, PYLON
 
-#adding comment to test branching
+#adding comment to test branching!
 
 class sc2bot(sc2.BotAI):
 
