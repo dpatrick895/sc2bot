@@ -10,6 +10,7 @@ class terranBot(sc2.BotAI):
 		await self.build_workers()
 		await self.build_supply_depot()
 		await self.build_refinery()
+		await self.expand()
 
 	async def build_workers(self):
 		for cc in self.units(COMMANDCENTER).ready.noqueue:
@@ -34,6 +35,10 @@ class terranBot(sc2.BotAI):
 					break
 				if not self.units(REFINERY).closer_than(1.0, vespene).exists:
 					await self.do(worker.build(REFINERY, vespene))
+
+	async def expand(self):
+		if self.units(COMMANDCENTER).amount < 2 and self.can_afford(COMMANDCENTER):
+			await self.expand_now()
 
 
 run_game(maps.get("CactusValleyLE"), [
