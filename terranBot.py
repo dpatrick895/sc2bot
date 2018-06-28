@@ -9,6 +9,7 @@ class terranBot(sc2.BotAI):
 		await self.distribute_workers()
 		await self.build_workers()
 		await self.build_supply_depot()
+		await self.build_refinery()
 
 	async def build_workers(self):
 		for cc in self.units(COMMANDCENTER).ready.noqueue:
@@ -21,6 +22,18 @@ class terranBot(sc2.BotAI):
 			if cc.exists:
 				if self.can_afford(SUPPLYDEPOT):
 					await self.build(SUPPLYDEPOT, near=cc.first)
+
+	async def build_refinery(self):
+		for cc in self.units(COMMANDCENTER).ready:
+			vespenes = self.state.vespene_geyser.closer_than(25.0, cc)
+			for vespene in vespenes:
+				if not self.can_afford(REFINERY):
+					break
+				worker = self.select_build_worker(vespene.position)
+				if worker is None:
+					break
+				if not self.units(REFINERY).closer_than(1.0, vespene).exists:
+					await self.do(worker.build(REFINERY, vespene))
 
 
 run_game(maps.get("CactusValleyLE"), [
