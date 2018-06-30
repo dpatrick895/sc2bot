@@ -24,7 +24,9 @@ class sc2bot(sc2.BotAI):
             nexuses = self.units(NEXUS).ready
             if nexuses.exists:
                 if self.can_afford(PYLON):
-                    await self.build(PYLON, near=nexuses.first)		
+                    await self.build(PYLON, near=nexuses.first)	
+
+                    	
 
 
 run_game(maps.get("CactusValleyLE"), [
